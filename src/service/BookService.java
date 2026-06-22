@@ -3,8 +3,8 @@ package service;
 import Repository.BookRepository;
 import Repository.FileBookRepository;
 import model.Book;
-import storage.FileStorage;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class BookService {
@@ -23,7 +23,10 @@ public class BookService {
         book.setIssued(false);
         bookRepository.save(book);
     }
-    public void viewBook() {}
+    public void viewBook() {
+        List<Book> bookList = bookRepository.findAll();
+        bookList.forEach(System.out::println);
+    }
     public void issueBook() {}
     public void returnBook() {}
     public void searchBook() {}

@@ -4,7 +4,7 @@ public class Book {
     private int id;
     private String title;
     private String author;
-    private boolean isIssued;
+    private boolean issued;
 
     // Getter and Setter
     public int getId() {
@@ -32,10 +32,20 @@ public class Book {
     }
 
     public boolean isIssued() {
-        return isIssued;
+        return issued;
     }
 
     public void setIssued(boolean issued) {
-        isIssued = issued;
+        this.issued = issued;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", issued=" + issued +
+                '}';
     }
 }
