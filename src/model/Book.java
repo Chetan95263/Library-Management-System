@@ -2,7 +2,7 @@ package model;
 
 public class Book {
     private int id;
-    private String tittle;
+    private String title;
     private String author;
     private boolean isIssued;
 
@@ -15,12 +15,12 @@ public class Book {
         this.id = id;
     }
 
-    public String getTittle() {
-        return tittle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
+    public void setTittle(String title) {
+        this.title = title;
     }
 
     public void setAuthor(String author) {
