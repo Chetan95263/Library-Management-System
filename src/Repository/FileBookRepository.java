@@ -6,7 +6,6 @@ import storage.FileStorage;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FileBookRepository implements BookRepository {
@@ -26,8 +25,12 @@ public class FileBookRepository implements BookRepository {
     }
 
     @Override
-    public Optional<Book> findById(int id) {
-        return Optional.empty();
+    public Book findById(int id) {
+        return findAll()
+                .stream()
+                .filter(book -> book.getId() == id)
+                .findFirst()
+                .orElseThrow(()-> new RuntimeException("Book not found!"));
     }
 
     @Override
@@ -40,8 +43,12 @@ public class FileBookRepository implements BookRepository {
     }
 
     @Override
-    public Optional<Book> findByAuthor(String author) {
-        return Optional.empty();
+    public Book findByAuthor(String author) {
+         return findAll()
+                 .stream()
+                 .filter(book -> book.getAuthor().equals(author))
+                 .findFirst()
+                 .orElseThrow(()-> new RuntimeException("Book not found!"));
     }
 
     @Override
@@ -52,13 +59,16 @@ public class FileBookRepository implements BookRepository {
 
     @Override
     public void update(Book updatedBook) {
-
+        List<String> lines = findAll().stream()
+                .map(book ->
+                        book.getId() == updatedBook.getId()
+                                ? updatedBook
+                                : book)
+                .map(this::convertToLine)
+                .toList();
+        fileStorage.overwrite(BOOK_PATH , lines);
     }
 
-    @Override
-    public void delete(Book book) {
-
-    }
     @Override
     public int generateBookId() {
           return findAll()

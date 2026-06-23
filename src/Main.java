@@ -14,11 +14,12 @@ public class Main {
         System.out.println("LIBRARY MANAGEMENT SYSTEM");
         System.out.println("====================================================");
         System.out.println("1. Add Book");
-        System.out.println("2. View Book");
+        System.out.println("2. View Books");
         System.out.println("3. Issue Book");
         System.out.println("4. Return Book");
-        System.out.println("5. Search Book");
-        System.out.println("6. Exit");
+        System.out.println("5. View Issue Records");
+        System.out.println("6. Search Book");
+        System.out.println("7. Exit");
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -45,9 +46,12 @@ public class Main {
                     bookService.returnBook();
                     break;
                 case 5:
-                    bookService.searchBook();
+                    bookService.viewIssueRecords();
                     break;
                 case 6:
+                    bookService.searchBook();
+                    break;
+                case 7:
                     return;
                 default:
                     System.out.println("Invalid option");

@@ -21,8 +21,12 @@ public class FileStorage {
             throw new RuntimeException(e);
         }
     }
-    public void overwrite(Path path , List<String> lines) {
-
+    public void overwrite(Path path, List<String> lines) {
+        try {
+            Files.write(path, lines);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to overwrite file: " + path, e);
+        }
     }
     public void createIfNotExists(Path path) {
         if(Files.notExists(path)){

@@ -46,4 +46,15 @@ public class IssueRecord {
     public void setReturned(boolean returned) {
         this.returned = returned;
     }
+    @Override
+    public String toString() {
+        return "IssueRecord{" +
+                "issueId=" + issueId +
+                ", bookId='" + bookId + '\'' +
+                ", borrowerName='" + borrowerName + '\'' +
+                ", issueDate='" + issueDate + '\'' +
+                ", dueDate='" + dueDate + '\'' +
+                ", returned=" + returned +
+                '}';
+    }
 }

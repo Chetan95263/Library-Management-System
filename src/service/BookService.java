@@ -40,17 +40,45 @@ public class BookService {
         System.out.println("Enter borrower name: ");
         String borrowerName = sc.nextLine();
 
-        Book book = bookRepository.findByTitle(title);
+        Book book = bookRepository.findByTitle(title.toLowerCase());
+        book.setIssued(true);
 
         IssueRecord issueRecord = new IssueRecord();
         issueRecord.setBookId(book.getId());
-        issueRecord.setBorrowerName(borrowerName);
-        issueRecord.setIssueId(34232);
+        issueRecord.setBorrowerName(borrowerName.toLowerCase());
+        issueRecord.setIssueId(issueRecordRepository.generateIssueRecordId());
         issueRecord.setReturned(false);
         issueRecord.setIssueDate(LocalDate.now());
         issueRecord.setDueDate(LocalDate.now().plusDays(14));
+        bookRepository.update(book);
         issueRecordRepository.save(issueRecord);
     }
     public void returnBook() {}
-    public void searchBook() {}
+    public void searchBook() {
+
+        System.out.println("1. Search Book by Id");
+        System.out.println("2. Search Book by Title");
+        System.out.println("3. Search Book by Author");
+        int option = Integer.parseInt(sc.nextLine());
+        if(option == 1) {
+            System.out.println("Enter Book Id: ");
+            int id = Integer.parseInt(sc.nextLine());
+            System.out.println(bookRepository.findById(id));
+        } else if(option == 2) {
+            System.out.println("Enter Book Title: ");
+            String title = sc.nextLine();
+            System.out.println(bookRepository.findByTitle(title));
+        } else if(option == 3) {
+            System.out.println("Enter Book Author: ");
+            String author = sc.nextLine();
+            System.out.println(bookRepository.findByAuthor(author));
+        } else {
+            System.out.println("Error: invalid option!");
+        }
+
+    }
+    public void viewIssueRecords() {
+        issueRecordRepository.findAll()
+                .forEach(System.out::println);
+    }
 }
