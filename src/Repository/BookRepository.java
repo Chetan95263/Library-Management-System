@@ -9,8 +9,8 @@ public interface BookRepository {
 
     List<Book> findAll();
     Optional<Book> findById(int id);
-    Optional<Book> findByTitle();
-    Optional<Book> findByAuthor();
+    Book findByTitle(String title);
+    Optional<Book> findByAuthor(String author);
     void save(Book book);
     void update(Book updatedBook);
     void delete(Book book);

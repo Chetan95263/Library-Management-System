@@ -1,37 +1,33 @@
 package storage;
 
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class FileStorage {
-    private final Path bookPath = Paths.get("books.txt");
-    public FileStorage(){
-        isFileExist();
-    }
-    public void addBookToFile(String line) {
+    public void append(String line , Path path) {
         try {
-            Files.writeString(bookPath, line + System.lineSeparator(), StandardOpenOption.APPEND);
+            Files.writeString(path, line + System.lineSeparator(), StandardOpenOption.APPEND);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public List<String> getAllBooks(){
+    public List<String> readAll(Path path){
         try {
-            return Files.readAllLines(bookPath);
+            return Files.readAllLines(path);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+    public void overwrite(Path path , List<String> lines) {
 
-    private void isFileExist() {
-        if(Files.notExists(bookPath)){
+    }
+    public void createIfNotExists(Path path) {
+        if(Files.notExists(path)){
             try {
-                Files.createFile(bookPath);
+                Files.createFile(path);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

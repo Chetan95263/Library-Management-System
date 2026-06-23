@@ -1,4 +1,9 @@
+import Repository.BookRepository;
+import Repository.FileBookRepository;
+import Repository.FileIssueRecordRepository;
+import Repository.IssueRecordRepository;
 import service.BookService;
+import storage.FileStorage;
 
 import java.util.Scanner;
 
@@ -17,7 +22,12 @@ public class Main {
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        BookService bookService = new BookService();
+
+        FileStorage fileStorage = new FileStorage();
+
+        BookRepository bookRepository = new FileBookRepository(fileStorage);
+        IssueRecordRepository issueRepository = new FileIssueRecordRepository(fileStorage);
+        BookService bookService = new BookService(bookRepository , issueRepository);
         while(true) {
             showMenu();
             int choice = sc.nextInt();

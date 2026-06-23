@@ -1,16 +1,23 @@
 package service;
 
 import Repository.BookRepository;
-import Repository.FileBookRepository;
+import Repository.IssueRecordRepository;
 import model.Book;
+import model.IssueRecord;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
 public class BookService {
-    private final BookRepository bookRepository = new FileBookRepository();
+    private final BookRepository bookRepository;
+    private final IssueRecordRepository issueRecordRepository;
+    public BookService(BookRepository bookRepository , IssueRecordRepository issueRecordRepository) {
+        this.bookRepository = bookRepository;
+        this.issueRecordRepository = issueRecordRepository;
+    }
+    private final Scanner sc = new Scanner(System.in);
     public void addBook() {
-        Scanner sc = new Scanner(System.in);
         System.out.println("Enter Book Title: ");
         String title = sc.nextLine();
         System.out.println("Enter Book Author: ");
@@ -27,7 +34,23 @@ public class BookService {
         List<Book> bookList = bookRepository.findAll();
         bookList.forEach(System.out::println);
     }
-    public void issueBook() {}
+    public void issueBook() {
+        System.out.println("Enter book title: ");
+        String title = sc.nextLine();
+        System.out.println("Enter borrower name: ");
+        String borrowerName = sc.nextLine();
+
+        Book book = bookRepository.findByTitle(title);
+
+        IssueRecord issueRecord = new IssueRecord();
+        issueRecord.setBookId(book.getId());
+        issueRecord.setBorrowerName(borrowerName);
+        issueRecord.setIssueId(34232);
+        issueRecord.setReturned(false);
+        issueRecord.setIssueDate(LocalDate.now());
+        issueRecord.setDueDate(LocalDate.now().plusDays(14));
+        issueRecordRepository.save(issueRecord);
+    }
     public void returnBook() {}
     public void searchBook() {}
 }

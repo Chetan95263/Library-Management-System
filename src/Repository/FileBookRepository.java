@@ -3,16 +3,23 @@ package Repository;
 import model.Book;
 import storage.FileStorage;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FileBookRepository implements BookRepository {
-    private final FileStorage fileStorage = new FileStorage();
+    private final FileStorage fileStorage;
+    private final Path BOOK_PATH = Paths.get("books.txt") ;
+    public FileBookRepository(FileStorage fileStorage){
+        this.fileStorage = fileStorage;
+        fileStorage.createIfNotExists(BOOK_PATH);
+    }
 
     @Override
     public List<Book> findAll() {
-        return fileStorage.getAllBooks()
+        return fileStorage.readAll(BOOK_PATH)
                 .stream()
                 .map(this::convertToBook)
                 .collect(Collectors.toList());
@@ -24,19 +31,23 @@ public class FileBookRepository implements BookRepository {
     }
 
     @Override
-    public Optional<Book> findByTitle() {
-        return Optional.empty();
+    public Book findByTitle(String title) {
+        return findAll()
+                .stream()
+                .filter((book) -> book.getTitle().equals(title))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Book not found!"));
     }
 
     @Override
-    public Optional<Book> findByAuthor() {
+    public Optional<Book> findByAuthor(String author) {
         return Optional.empty();
     }
 
     @Override
     public void save(Book book) {
         String line = convertToLine(book);
-        fileStorage.addBookToFile(line);
+        fileStorage.append(line , BOOK_PATH);
     }
 
     @Override
