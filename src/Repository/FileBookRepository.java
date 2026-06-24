@@ -68,6 +68,12 @@ public class FileBookRepository implements BookRepository {
                 .toList();
         fileStorage.overwrite(BOOK_PATH , lines);
     }
+    @Override
+    public boolean isBookExists(String title){
+        return findAll()
+                .stream()
+                .anyMatch(book -> book.getTitle().equalsIgnoreCase(title));
+    }
 
     @Override
     public int generateBookId() {

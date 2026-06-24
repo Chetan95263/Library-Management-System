@@ -13,4 +13,5 @@ public interface BookRepository {
     void save(Book book);
     void update(Book updatedBook);
     public int generateBookId();
+    boolean isBookExists(String title);
 }

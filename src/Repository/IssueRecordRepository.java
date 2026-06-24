@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IssueRecordRepository {
     void save(IssueRecord issueRecord);
-    IssueRecord findByBookId();
+    IssueRecord findActiveIssueRecordByBookId(int id);
     List<IssueRecord> findAll();
     void update(IssueRecord issueRecord);
     public int generateIssueRecordId();

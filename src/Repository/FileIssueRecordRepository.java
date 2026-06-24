@@ -23,9 +23,16 @@ public class FileIssueRecordRepository implements IssueRecordRepository {
     }
 
     @Override
-    public IssueRecord findByBookId() {
-        return null;
+    public IssueRecord findActiveIssueRecordByBookId(int id) {
+        return findAll()
+                .stream()
+                .filter(record ->
+                        record.getBookId() == id &&
+                                !record.isReturned())
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Record not found!"));
     }
+
 
     @Override
     public List<IssueRecord> findAll() {
@@ -36,7 +43,15 @@ public class FileIssueRecordRepository implements IssueRecordRepository {
     }
 
     @Override
-    public void update(IssueRecord issueRecord) {
+    public void update(IssueRecord updatedIssueRecord) {
+        List<String> lines = findAll().stream()
+                .map(issueRecord ->
+                        issueRecord.getIssueId() == updatedIssueRecord.getIssueId()
+                                ? updatedIssueRecord
+                                : issueRecord)
+                .map(this::convertToLine)
+                .toList();
+        fileStorage.overwrite(ISSUE_RECORD_PATH , lines);
 
     }
 
